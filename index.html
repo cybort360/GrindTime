@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GrindTime - Workout Timer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <!-- Header -->
+      <header class="header">
+        <div class="logo">
+          <span class="logo-icon">⚡</span>
+          <span class="logo-text">GrindTime</span>
+        </div>
+        <nav class="nav">
+          <button class="nav-btn active" data-view="timer">Timer</button>
+          <button class="nav-btn" data-view="history">History</button>
+        </nav>
+      </header>
+
+      <!-- Timer View -->
+      <main class="timer-view" id="timerView">
+        <!-- Setup Panel -->
+        <section class="setup-panel" id="setupPanel">
+          <h2 class="setup-title">Configure Your Workout</h2>
+
+          <div class="setup-grid">
+            <!-- Work Duration -->
+            <div class="setup-card">
+              <label class="setup-label">Work Duration</label>
+              <div class="duration-input">
+                <button
+                  class="duration-btn minus"
+                  data-target="workDuration"
+                  data-action="decrease"
+                >
+                  −
+                </button>
+                <div class="duration-display">
+                  <span class="duration-value" id="workDuration">45</span>
+                  <span class="duration-unit">sec</span>
+                </div>
+                <button
+                  class="duration-btn plus"
+                  data-target="workDuration"
+                  data-action="increase"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <!-- Rest Duration -->
+            <div class="setup-card">
+              <label class="setup-label">Rest Duration</label>
+              <div class="duration-input">
+                <button
+                  class="duration-btn minus"
+                  data-target="restDuration"
+                  data-action="decrease"
+                >
+                  −
+                </button>
+                <div class="duration-display">
+                  <span class="duration-value" id="restDuration">15</span>
+                  <span class="duration-unit">sec</span>
+                </div>
+                <button
+                  class="duration-btn plus"
+                  data-target="restDuration"
+                  data-action="increase"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <!-- Number of Rounds -->
+            <div class="setup-card">
+              <label class="setup-label">Rounds</label>
+              <div class="duration-input">
+                <button
+                  class="duration-btn minus"
+                  data-target="rounds"
+                  data-action="decrease"
+                >
+                  −
+                </button>
+                <div class="duration-display">
+                  <span class="duration-value" id="rounds">8</span>
+                  <span class="duration-unit">rounds</span>
+                </div>
+                <button
+                  class="duration-btn plus"
+                  data-target="rounds"
+                  data-action="increase"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Workout Summary -->
+          <div class="workout-summary">
+            <p>Total workout time: <span id="totalTime">8:00</span></p>
+          </div>
+
+          <!-- Start Button -->
+          <button class="btn btn-start" id="btnStart">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+            Start Workout
+          </button>
+        </section>
+
+        <!-- Active Timer -->
+        <section class="active-timer hidden" id="activeTimer">
+          <!-- Phase Indicator -->
+          <div class="phase-indicator" id="phaseIndicator">
+            <span class="phase-text" id="phaseText">WORK</span>
+          </div>
+
+          <!-- Main Timer Display -->
+          <div class="timer-display">
+            <svg class="timer-ring" viewBox="0 0 200 200">
+              <circle class="timer-ring-bg" cx="100" cy="100" r="90" />
+              <circle
+                class="timer-ring-progress"
+                id="timerProgress"
+                cx="100"
+                cy="100"
+                r="90"
+              />
+            </svg>
+            <div class="timer-content">
+              <span class="timer-time" id="timerTime">00:45</span>
+              <span class="timer-round" id="timerRound">Round 1 of 8</span>
+            </div>
+          </div>
+
+          <!-- Timer Controls -->
+          <div class="timer-controls">
+            <button class="control-btn" id="btnPause">
+              <svg
+                class="icon-pause"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <rect x="6" y="4" width="4" height="16" />
+                <rect x="14" y="4" width="4" height="16" />
+              </svg>
+              <svg
+                class="icon-play hidden"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <polygon points="5 3 19 12 5 21 5 3" />
+              </svg>
+            </button>
+            <button class="control-btn control-btn-stop" id="btnStop">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <rect x="4" y="4" width="16" height="16" rx="2" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+            <div class="progress-rounds" id="progressRounds">
+              <!-- Round indicators will be inserted here -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Workout Complete -->
+        <section class="workout-complete hidden" id="workoutComplete">
+          <div class="complete-icon">🎉</div>
+          <h2 class="complete-title">Workout Complete!</h2>
+          <div class="complete-stats">
+            <div class="stat">
+              <span class="stat-value" id="completedRounds">8</span>
+              <span class="stat-label">Rounds</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value" id="completedTime">8:00</span>
+              <span class="stat-label">Total Time</span>
+            </div>
+          </div>
+          <button class="btn btn-start" id="btnNewWorkout">
+            Start New Workout
+          </button>
+        </section>
+      </main>
+
+      <!-- History View -->
+      <main class="history-view hidden" id="historyView">
+        <h2 class="history-title">Workout History</h2>
+        <div class="history-list" id="historyList">
+          <!-- History items will be inserted here -->
+          <div class="empty-state" id="emptyHistory">
+            <span class="empty-icon">📋</span>
+            <p>No workouts yet</p>
+            <span>Complete your first workout to see it here</span>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Audio for alerts (optional - will use Web Audio API) -->
+
+    <script src="sandbox.js"></script>
+  </body>
+</html>
